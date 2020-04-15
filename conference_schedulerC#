@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ClassRoom
+{
+
+    public class Room
+    {
+        TimeSpan start;
+        TimeSpan end;
+        int memberCount;
+        int floor;
+        string roomNo;
+        public Room(TimeSpan start, TimeSpan end, int memberCount, int floor, string roomNo)
+        {
+            this.start = start;
+            this.end = end;
+            this.memberCount = memberCount;
+            this.floor = floor;
+            this.roomNo = roomNo;
+        }
+        public TimeSpan getStart()
+        {
+            return start;
+        }
+        public TimeSpan getEnd()
+        {
+            return end;
+        }
+
+        public int getMemberCount()
+        {
+            return memberCount;
+        }
+
+        public int getFloor()
+        {
+            return this.floor;
+        }
+
+        public string getRoomNo()
+        {
+            return roomNo;
+        }
+    }
+
+
+    class Program
+    {
+
+        /*public static List<Room> SortRoomTimes(List<Room> roomsList)
+        {
+            roomsList.Sort((a, b) => a.getStart().CompareTo(b.getStart()));
+            return roomsList;
+        }*/
+
+        public static List<Room> SortByFloor(List<Room> roomsList)
+        {
+            roomsList.Sort((a, b) => a.getFloor().CompareTo(b.getFloor()));
+            return roomsList;
+        }
+        static void Main(string[] args)
+        {
+            int ipMemberCount = 5;
+            int floor = 8;
+            TimeSpan ipStartTime = new TimeSpan(10, 30, 0);
+            TimeSpan ipEndTime = new TimeSpan(11, 30, 0);
+
+
+            if (ipStartTime <= ipEndTime)
+            {
+                List<Room> roomsList = new List<Room>();
+                roomsList.Add(new Room(new TimeSpan(10, 30, 0), new TimeSpan(11, 30, 0), 6, 10, "547"));
+                roomsList.Add(new Room(new TimeSpan(9, 0, 0), new TimeSpan(9, 15, 0), 8, 7, "11"));
+                roomsList.Add(new Room(new TimeSpan(14, 30, 0), new TimeSpan(15, 0, 0), 8, 7, "11"));
+                roomsList.Add(new Room(new TimeSpan(10, 0, 0), new TimeSpan(11, 0, 0), 6, 8, "23"));
+                roomsList.Add(new Room(new TimeSpan(14, 0, 0), new TimeSpan(15, 0, 0), 6, 8, "23"));
+                roomsList.Add(new Room(new TimeSpan(10, 30, 0), new TimeSpan(11, 30, 0), 6, 9, "547"));
+                roomsList.Add(new Room(new TimeSpan(13, 30, 0), new TimeSpan(15, 30, 0), 6, 9, "547"));
+                roomsList.Add(new Room(new TimeSpan(16, 30, 0), new TimeSpan(17, 30, 0), 6, 9, "547"));
+
+                List<Room> sortedRoomsList = SortByFloor(roomsList);
+                //List<Room> availableRooms = new List<Room>();
+                bool roomFound = false;
+                for (int i = 0; i < sortedRoomsList.Count; i++)
+                {
+                    if (sortedRoomsList[i].getMemberCount() >= ipMemberCount)
+                    {
+                        if (sortedRoomsList[i].getStart() <= ipStartTime && sortedRoomsList[i].getEnd() >= ipEndTime)
+                        {
+                            roomFound = true;
+                            Console.WriteLine(sortedRoomsList[i].getFloor() + "th floor, Room No. is " + sortedRoomsList[i].getRoomNo());
+                            break;
+                        }
+                    }
+                }
+
+                if (!roomFound)
+                    Console.WriteLine("No room found");
+            }
+            else
+                Console.WriteLine("Invalid input");
+            Console.Read();
+        }
+    }
+}
